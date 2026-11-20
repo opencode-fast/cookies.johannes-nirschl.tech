@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Cookie Leaderboard 🍪</title>
+  <meta name="description" content="Who rules the cookie jar? Live ranking of master bakers, connoisseurs, and crumb seekers.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Google Fonts: Fredoka & Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Falling Cookies & Sprinkles Background Canvas -->
+  <canvas id="cookieBgCanvas" aria-hidden="true"></canvas>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="site-header">
+      <div class="header-top">
+        <span>✨</span> Freshly Baked High Scores <span>✨</span>
+      </div>
+
+      <h1 class="site-title">
+        <span class="title-wobble" aria-hidden="true">🍪</span>
+        <span>The Cookie Leaderboard</span>
+        <span class="title-wobble" aria-hidden="true">🍪</span>
+      </h1>
+
+      <p class="site-subtitle">
+        Who reigns supreme over the golden crumb kingdom? Tap the giant cookie for a snack!
+      </p>
+
+      <!-- Giant Clickable Cookie -->
+      <div class="cookie-interactive-wrap">
+        <button id="giantCookieBtn" class="giant-cookie-btn" type="button" aria-label="Take a bite of the giant cookie">
+          <div id="cookieSpeech" class="cookie-speech-bubble" style="display: none;" aria-live="polite">om nom!</div>
+          <svg class="giant-cookie-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="cookieBodyGrad" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#f8ce9f" />
+                <stop offset="45%" stop-color="#dc934d" />
+                <stop offset="85%" stop-color="#b86b24" />
+                <stop offset="100%" stop-color="#884813" />
+              </radialGradient>
+              <radialGradient id="chipColor" cx="30%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#54280f" />
+                <stop offset="70%" stop-color="#321405" />
+                <stop offset="100%" stop-color="#190700" />
+              </radialGradient>
+              <!-- Mask for bites -->
+              <mask id="giantCookieMask">
+                <!-- Everything white is kept -->
+                <rect width="120" height="120" fill="white" />
+                <!-- Black circles subtracted on bite -->
+                <g id="cookieBitesCutout"></g>
+              </mask>
+            </defs>
+
+            <!-- Base Cookie with Mask -->
+            <g mask="url(#giantCookieMask)">
+              <!-- Outer organic circle -->
+              <path d="M 60 8
+                       C 90 7, 112 28, 112 60
+                       C 113 91, 91 113, 60 113
+                       C 28 113, 7 92, 8 60
+                       C 7 28, 29 8, 60 8 Z"
+                    fill="url(#cookieBodyGrad)" />
+
+              <!-- Texture cracks -->
+              <path d="M 32 38 Q 42 42 46 36" stroke="#9e5618" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+              <path d="M 72 82 Q 84 78 88 86" stroke="#9e5618" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+              <path d="M 52 64 Q 62 70 66 60" stroke="#7e410f" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+
+              <!-- Chocolate chips -->
+              <ellipse cx="40" cy="32" rx="8" ry="6.5" fill="url(#chipColor)" transform="rotate(-15 40 32)" />
+              <circle cx="37" cy="30" r="2" fill="#804a2c" opacity="0.8" />
+
+              <ellipse cx="80" cy="38" rx="9" ry="7.5" fill="url(#chipColor)" transform="rotate(25 80 38)" />
+              <circle cx="77" cy="35" r="2.2" fill="#804a2c" opacity="0.8" />
+
+              <ellipse cx="58" cy="52" rx="10" ry="8" fill="url(#chipColor)" transform="rotate(5 58 52)" />
+              <circle cx="54" cy="49" r="2.5" fill="#804a2c" opacity="0.8" />
+
+              <ellipse cx="34" cy="72" rx="7.5" ry="6.5" fill="url(#chipColor)" transform="rotate(40 34 72)" />
+
+              <ellipse cx="82" cy="70" rx="8.5" ry="7.5" fill="url(#chipColor)" transform="rotate(-20 82 70)" />
+              <circle cx="79" cy="67" r="2" fill="#804a2c" opacity="0.8" />
+
+              <ellipse cx="58" cy="90" rx="7.5" ry="6" fill="url(#chipColor)" transform="rotate(10 58 90)" />
+
+              <!-- Sprinkles on cookie -->
+              <circle cx="22" cy="52" r="2.5" fill="#ff5b79" />
+              <circle cx="74" cy="22" r="2.5" fill="#ffd166" />
+              <circle cx="96" cy="55" r="2.5" fill="#2ec4b6" />
+              <circle cx="48" cy="94" r="2.2" fill="#ff5b79" />
+            </g>
+          </svg>
+        </button>
+        <span class="cookie-hint"><span>👈</span> Tap for a bite!</span>
+      </div>
+    </header>
+
+    <!-- Stats Strip -->
+    <section class="stats-strip" aria-label="Leaderboard statistics">
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">🍪</span>
+        <span id="statTotalCookies" class="stat-value" data-value="0">0</span>
+        <span class="stat-label">Total in Jar</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">👥</span>
+        <span id="statCollectors" class="stat-value" data-value="0">0</span>
+        <span class="stat-label">Cookie Collectors</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">⏱️</span>
+        <span id="statLastUpdated" class="stat-value" style="font-size: 1.45rem;">just now</span>
+        <span class="stat-label">Last Fresh Bake</span>
+      </div>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state" role="status" aria-live="polite">
+      <div class="loading-icon spin" aria-hidden="true">🍪</div>
+      <h2 class="state-title">Heating Up the Oven...</h2>
+      <p class="state-text">Fetching the freshest batches and tallying the crumbs.</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error-state" role="alert" style="display: none;">
+      <div class="error-icon" aria-hidden="true">🔥</div>
+      <h2 class="state-title">Oops! The Cookies Burnt</h2>
+      <p class="state-text">We couldn't load the latest leaderboard numbers. Check your connection and try again.</p>
+      <button id="retryBtn" class="btn-primary" type="button">
+        <span>🔄</span> Retry Baking
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-icon" aria-hidden="true">🫙</div>
+      <h2 class="state-title">The Cookie Jar is Empty!</h2>
+      <p class="state-text">No bakers have entered the hall of fame yet. Be the first to stock the jar!</p>
+      <a href="admin/" class="btn-primary">
+        <span>👩‍🍳</span> Go to Cookie Oven (Admin)
+      </a>
+    </div>
+
+    <!-- Main Content (Podium, List, Ticker) -->
+    <main id="mainContent" style="display: none;">
+      <!-- Recent Crumbs Ticker -->
+      <section id="tickerSection" class="ticker-section" aria-label="Recent crumb activity">
+        <div class="ticker-badge">
+          <span>⚡</span> Recent Crumbs
+        </div>
+        <div class="ticker-content">
+          <div id="tickerTrack" class="ticker-track"></div>
+        </div>
+      </section>
+
+      <!-- Podium Section (Top 3) -->
+      <section id="podiumSection" class="podium-section" aria-label="Top 3 podium">
+        <h2 class="section-title">
+          <span>👑</span> Hall of Crumbs <span>👑</span>
+        </h2>
+        <div id="podiumContainer" class="podium-container"></div>
+      </section>
+
+      <!-- Leaderboard List Section (All Ranks) -->
+      <section id="leaderboardSection" class="leaderboard-section" aria-label="Complete leaderboard ranking">
+        <h2 class="section-title" style="margin-bottom: 1.5rem;">
+          <span>🏆</span> All Cookie Crumblers
+        </h2>
+        <ol id="leaderboardList" class="leaderboard-list"></ol>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div>
+        baked at <a href="https://johannes-nirschl.tech" target="_blank" rel="noopener noreferrer">johannes-nirschl.tech</a>
+      </div>
+      <div class="footer-links">
+        <a href="admin/">Cookie Oven (Admin)</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-20T12:00:00.000Z",
+  "people": [
+    { "id": "p-demo-1", "name": "Johannes", "emoji": "🍪", "cookies": 42, "updatedAt": "2026-11-20T12:00:00.000Z" },
+    { "id": "p-demo-2", "name": "Cookie Monster", "emoji": "👾", "cookies": 31, "updatedAt": "2026-11-20T12:00:00.000Z" },
+    { "id": "p-demo-3", "name": "Crumb Lord", "emoji": "🦝", "cookies": 17, "updatedAt": "2026-11-20T12:00:00.000Z" },
+    { "id": "p-demo-4", "name": "Sprinkles", "emoji": "🐸", "cookies": 5, "updatedAt": "2026-11-20T12:00:00.000Z" }
+  ],
+  "log": [
+    { "at": "2026-11-20T12:00:00.000Z", "personId": "p-demo-1", "name": "Johannes", "delta": 42 }
+  ]
+}

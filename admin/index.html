@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Cookie Oven Admin 🍪</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+  <!-- Google Fonts: Fredoka & Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Admin Top Nav -->
+    <header class="admin-header-nav">
+      <a href="../" class="admin-brand">
+        <span aria-hidden="true">🍪</span>
+        <span>Cookie Oven</span>
+        <span class="admin-badge">Admin</span>
+      </a>
+
+      <div class="admin-nav-actions">
+        <a href="../" class="btn-secondary">
+          <span>👀</span> View Leaderboard
+        </a>
+      </div>
+    </header>
+
+    <!-- Toolbar & Dirty Status -->
+    <div class="admin-toolbar">
+      <div id="dirtyIndicator" class="dirty-indicator">
+        <span class="dirty-dot" aria-hidden="true"></span>
+        <span id="dirtyText">All changes saved ✓</span>
+      </div>
+
+      <div class="toolbar-buttons">
+        <button id="btnDiscard" class="btn-secondary" type="button" disabled>
+          <span>↩️</span> Discard Changes
+        </button>
+        <button id="btnSave" class="btn-save" type="button">
+          <span>💾</span> Save to GitHub
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Subtitle -->
+    <div id="statusText" class="form-help" style="margin: -0.75rem 0 1.25rem 0.25rem; font-weight: 600;">
+      Checking connection...
+    </div>
+
+    <!-- Collapsible Settings Panel -->
+    <details id="settingsPanel" class="settings-panel">
+      <summary class="settings-summary">
+        <span>⚙️ GitHub Connection Settings</span>
+        <span style="font-size: 0.9rem; font-weight: 600; color: var(--c-cookie-dark);">Toggle Settings ▼</span>
+      </summary>
+
+      <div class="settings-body">
+        <form id="settingsForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="inputOwner" class="form-label">Repository Owner</label>
+              <input id="inputOwner" type="text" class="form-input" required value="opencode-fast">
+            </div>
+
+            <div class="form-group">
+              <label for="inputRepo" class="form-label">Repository Name</label>
+              <input id="inputRepo" type="text" class="form-input" required value="cookies.johannes-nirschl.tech">
+            </div>
+
+            <div class="form-group">
+              <label for="inputBranch" class="form-label">Branch</label>
+              <input id="inputBranch" type="text" class="form-input" required value="main">
+            </div>
+
+            <div class="form-group">
+              <label for="inputPath" class="form-label">File Path</label>
+              <input id="inputPath" type="text" class="form-input" required value="data/leaderboard.json">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="inputToken" class="form-label">GitHub Personal Access Token</label>
+            <input id="inputToken" type="password" class="form-input" placeholder="github_pat_..." autocomplete="off">
+            <p class="form-help">
+              Create a fine-grained personal access token limited to only this repository with <strong>Contents: Read and write</strong> permissions.
+            </p>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label class="checkbox-label">
+              <input id="checkRemember" type="checkbox" checked>
+              <span>Remember settings on this device (stores in browser localStorage)</span>
+            </label>
+          </div>
+
+          <div class="settings-actions">
+            <button type="submit" class="btn-primary" style="padding: 0.55rem 1.2rem; font-size: 0.9rem;">
+              <span>💾</span> Save Settings &amp; Connect
+            </button>
+            <button id="btnForgetToken" type="button" class="btn-danger" style="padding: 0.55rem 1.1rem; font-size: 0.9rem;">
+              <span>🔒</span> Forget Token
+            </button>
+          </div>
+        </form>
+      </div>
+    </details>
+
+    <!-- Add Person Section -->
+    <section class="add-person-section" aria-label="Add new baker">
+      <h2 class="section-title" style="font-size: 1.3rem; margin-bottom: 1rem; justify-content: flex-start;">
+        <span>➕</span> Add a Cookie Collector
+      </h2>
+
+      <form id="addPersonForm" class="add-person-form">
+        <!-- Emoji Picker Trigger -->
+        <div class="form-group">
+          <label class="form-label">Emoji</label>
+          <button id="addEmojiBtn" class="emoji-picker-btn" type="button" aria-label="Select avatar emoji">🍪</button>
+          <input id="addEmojiValue" type="hidden" value="🍪">
+        </div>
+
+        <!-- Name Input -->
+        <div class="form-group">
+          <label for="addNameInput" class="form-label">Baker Name (1–40 chars)</label>
+          <input id="addNameInput" type="text" class="form-input" placeholder="e.g. Cookie Monster" maxlength="40" required>
+        </div>
+
+        <!-- Starting Cookies -->
+        <div class="form-group">
+          <label for="addCookiesInput" class="form-label">Starting Cookies</label>
+          <input id="addCookiesInput" type="number" class="form-input" min="0" value="0" required>
+        </div>
+
+        <button type="submit" class="btn-primary" style="height: 44px; padding: 0 1.3rem; font-size: 0.95rem;">
+          <span>✨</span> Add Baker
+        </button>
+      </form>
+    </section>
+
+    <!-- People Management Cards / Table -->
+    <section class="people-section" aria-label="Current leaderboard bakers">
+      <h2 class="section-title" style="font-size: 1.3rem; margin-bottom: 1rem; justify-content: flex-start;">
+        <span>🧑‍🍳</span> Manage Cookie Collectors
+      </h2>
+
+      <div id="emptyNotice" class="form-help" style="display: none; padding: 2rem; text-align: center; font-size: 1rem;">
+        No cookie collectors yet! Use the form above to add the first baker.
+      </div>
+
+      <div id="adminPeopleList" class="people-table-wrap">
+        <!-- Rendered dynamically by admin.js -->
+      </div>
+    </section>
+
+    <!-- Small footer -->
+    <footer class="site-footer">
+      <div>
+        baked at <a href="https://johannes-nirschl.tech" target="_blank" rel="noopener noreferrer">johannes-nirschl.tech</a>
+      </div>
+      <div class="footer-links">
+        <a href="../">← Back to Public Leaderboard</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Emoji Popover (Dynamically positioned) -->
+  <div id="emojiPopover" class="emoji-popover" style="display: none;" role="dialog" aria-label="Emoji Picker">
+    <div style="font-size: 0.8rem; font-weight: 700; color: var(--c-choco-light); text-transform: uppercase;">
+      Choose an avatar:
+    </div>
+    <div id="emojiGrid" class="emoji-grid">
+      <!-- 16 options populated dynamically -->
+    </div>
+    <div style="display: flex; gap: 0.35rem; margin-top: 0.25rem;">
+      <input id="emojiCustomInput" type="text" class="form-input" style="padding: 0.35rem 0.5rem; font-size: 0.9rem;" placeholder="Or type emoji / text">
+      <button id="emojiApplyCustomBtn" type="button" class="btn-primary" style="padding: 0 0.75rem; font-size: 0.85rem;">OK</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Stack -->
+  <div id="toastContainer" aria-live="polite"></div>
+
+  <script type="module" src="../js/admin.js"></script>
+</body>
+</html>
