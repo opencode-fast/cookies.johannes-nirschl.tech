@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-22T19:17:52.800Z",
+  "updatedAt": "2026-11-22T19:21:00.019Z",
   "people": [
     {
       "id": "p-mws7xvzmos99i",
@@ -15,9 +15,22 @@
       "emoji": "🍪",
       "cookies": 1,
       "updatedAt": "2026-11-22T19:17:43.360Z"
+    },
+    {
+      "id": "p-mws82l52hs3zw",
+      "name": "Thomas",
+      "emoji": "🍪",
+      "cookies": 1,
+      "updatedAt": "2026-11-22T19:20:55.430Z"
     }
   ],
   "log": [
+    {
+      "at": "2026-11-22T19:20:55.430Z",
+      "personId": "p-mws82l52hs3zw",
+      "name": "Thomas",
+      "delta": 1
+    },
     {
       "at": "2026-11-22T19:17:43.360Z",
       "personId": "p-mws7ygxsgc2lu",
