@@ -1,8 +1,35 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-22T19:16:11.237Z",
-  "people": [],
+  "updatedAt": "2026-11-22T19:17:52.800Z",
+  "people": [
+    {
+      "id": "p-mws7xvzmos99i",
+      "name": "Fabi",
+      "emoji": "🍪",
+      "cookies": 2,
+      "updatedAt": "2026-11-22T19:17:16.210Z"
+    },
+    {
+      "id": "p-mws7ygxsgc2lu",
+      "name": "Jonas",
+      "emoji": "🍪",
+      "cookies": 1,
+      "updatedAt": "2026-11-22T19:17:43.360Z"
+    }
+  ],
   "log": [
+    {
+      "at": "2026-11-22T19:17:43.360Z",
+      "personId": "p-mws7ygxsgc2lu",
+      "name": "Jonas",
+      "delta": 1
+    },
+    {
+      "at": "2026-11-22T19:17:16.210Z",
+      "personId": "p-mws7xvzmos99i",
+      "name": "Fabi",
+      "delta": 2
+    },
     {
       "at": "2026-11-20T12:00:00.000Z",
       "personId": "p-demo-1",
