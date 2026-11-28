@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-22T22:19:33.703Z",
+  "updatedAt": "2026-11-28T07:10:16.087Z",
   "people": [
     {
       "id": "p-mws7xvzmos99i",
@@ -29,9 +29,22 @@
       "emoji": "🍪",
       "cookies": 1,
       "updatedAt": "2026-11-22T22:19:32.131Z"
+    },
+    {
+      "id": "p-mx02m1pm9r7k3",
+      "name": "Noah",
+      "emoji": "🍪",
+      "cookies": 1,
+      "updatedAt": "2026-11-28T07:10:15.082Z"
     }
   ],
   "log": [
+    {
+      "at": "2026-11-28T07:10:15.082Z",
+      "personId": "p-mx02m1pm9r7k3",
+      "name": "Noah",
+      "delta": 1
+    },
     {
       "at": "2026-11-22T22:19:32.131Z",
       "personId": "p-mwsega776lsld",
